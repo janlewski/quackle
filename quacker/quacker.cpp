@@ -48,6 +48,7 @@
 #include "oppothreadprogressbar.h"
 #include "quacker.h"
 #include "quackersettings.h"
+#include "words.h"
 #include "settings.h"
 #include "simviewer.h"
 #include "widgetfactory.h"
@@ -2004,6 +2005,11 @@ void TopLevel::createWidgets()
 	m_tabWidget = new QTabWidget;
 	m_tabWidget->addTab(m_history, tr("Histor&y"));
 	m_tabWidget->addTab(m_choicesWidget, tr("&Choices"));
+
+	m_words = new Words;
+	plugIntoHistoryMatrix(m_words);
+	m_tabWidget->addTab(m_words, tr("&Words"));
+
 	m_tabWidget->addTab(m_settings, tr("Se&ttings"));
 
 	GraphicalFactory factory;
@@ -2345,7 +2351,7 @@ void TopLevel::birthdayGram(int index, bool on)
 		m_tabWidget->setTabText(1, on? tr("SUPERPIMP") : tr("&Choices"));
 		break;
 	case 9:
-		m_tabWidget->setTabText(2, on? tr("YEAR") : tr("Se&ttings"));
+		m_tabWidget->setTabText(3, on? tr("YEAR") : tr("Se&ttings"));
 		break;
 	case 10:
 		statusMessage(on? tr("you're awesome don't ever change") : tr(""));

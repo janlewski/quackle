@@ -70,6 +70,7 @@ class QuackerSettings;
 class Settings;
 class SimViewer;
 class View;
+class Words;
 
 class TopLevel : public QMainWindow
 {
@@ -313,7 +314,7 @@ private:
 
 	QVBoxLayout *m_leftSideLayout;
 
-	enum TabIndex { HistoryTabIndex = 0, ChoicesTabIndex = 1, SettingsTabIndex = 2};
+	enum TabIndex { HistoryTabIndex = 0, ChoicesTabIndex = 1, WordsTabIndex = 2, SettingsTabIndex = 3};
 	QTabWidget *m_tabWidget;
 
 	HistoryView *m_history;
@@ -323,6 +324,7 @@ private:
 	View *m_moveBox;
 	View *m_noteEditor;
 	QFrame *m_frameWidget;
+	Words *m_words;
 
 	Settings *m_settings;
 

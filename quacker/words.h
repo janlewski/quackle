@@ -16,45 +16,39 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef QUACKER_CONFIG_PAGES_H
-#define QUACKER_CONFIG_PAGES_H
+#ifndef QUACKER_WORDS_H
+#define QUACKER_WORDS_H
 
-#include <QWidget>
+#include <QSet>
+#include <QString>
 
-#include "configdialog.h"
+#include "view.h"
 
-class QComboBox;
-class QSpinBox;
+class QListWidget;
+class QListWidgetItem;
+class QVBoxLayout;
 
-class LetterboxPage : public ConfigPage
+// A simple view listing words played in the current game history.
+// Clicking a word opens the configured URL in the default browser.
+class Words : public HistoryView
 {
-public:
-	LetterboxPage(QWidget *parent = 0);
+Q_OBJECT
 
-	virtual void readConfig();
-	virtual void writeConfig();
+public:
+    Words(QWidget *parent = 0);
+    virtual ~Words() {}
+
+public slots:
+    virtual void historyChanged(const Quackle::History &history) override;
+
+private slots:
+    void itemActivated(QListWidgetItem *item);
 
 private:
-	QSpinBox *m_baseSpin;
-	QSpinBox *m_extraSpin;
+    QString buildUrlForWord(const QString &word) const;
+
+    QVBoxLayout *m_layout;
+    QListWidget *m_list;
 };
 
-class InterfacePage : public ConfigPage
-{
-public:
-	InterfacePage(QWidget *parent = 0);
-
-	virtual void readConfig();
-	virtual void writeConfig();
-
-private:
-	QCheckBox *m_vowelFirstCheck;
-	QCheckBox *m_verboseLabelsCheck;
-	QCheckBox *m_scoreLabelsCheck;
-	QCheckBox *m_octothorpCheck;
-	QCheckBox *m_scoreInvalidAsZero;
-	QComboBox *m_britishColoringCombo;
-	QLineEdit *m_wordLookupTemplateEdit;
-};
-
-#endif
+#endif // QUACKER_WORDS_H

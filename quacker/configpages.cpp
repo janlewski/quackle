@@ -23,6 +23,7 @@
 #include "configpages.h"
 #include "letterboxsettings.h"
 #include "quackersettings.h"
+#include "customqsettings.h"
 
 LetterboxPage::LetterboxPage(QWidget *parent)
 	: ConfigPage(parent)
@@ -98,10 +99,16 @@ InterfacePage::InterfacePage(QWidget *parent)
 	m_octothorpCheck = new QCheckBox(tr("&Octothorp British words"));
 	m_scoreInvalidAsZero = new QCheckBox(tr("&Score 0 for plays with illegal words"));
 
+	QLabel *lookupLabel = new QLabel(tr("Word lookup URL template:"));
+	m_wordLookupTemplateEdit = new QLineEdit;
+	m_wordLookupTemplateEdit->setPlaceholderText("sjp.pl/$1");
+
 	QGridLayout *miscellanyLayout = new QGridLayout;
-	miscellanyLayout->addWidget(m_vowelFirstCheck, 0, 0);
-	miscellanyLayout->addWidget(m_octothorpCheck, 1, 0);
-	miscellanyLayout->addWidget(m_scoreInvalidAsZero, 2, 0);
+	miscellanyLayout->addWidget(m_vowelFirstCheck, 0, 0, 1, 2);
+	miscellanyLayout->addWidget(m_octothorpCheck, 1, 0, 1, 2);
+	miscellanyLayout->addWidget(m_scoreInvalidAsZero, 2, 0, 1, 2);
+	miscellanyLayout->addWidget(lookupLabel, 3, 0);
+	miscellanyLayout->addWidget(m_wordLookupTemplateEdit, 3, 1);
 	miscellanyGroup->setLayout(miscellanyLayout);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -119,6 +126,9 @@ void InterfacePage::readConfig()
 	m_scoreLabelsCheck->setChecked(QuackerSettings::self()->scoreLabels);
 	m_octothorpCheck->setChecked(QuackleIO::UtilSettings::self()->octothorpBritish);
 	m_scoreInvalidAsZero->setChecked(QuackleIO::UtilSettings::self()->scoreInvalidAsZero);
+
+	CustomQSettings settings;
+	m_wordLookupTemplateEdit->setText(settings.value("quackle/settings/word-lookup-template", QString("sjp.pl/$1")).toString());
 }
 
 void InterfacePage::writeConfig()
@@ -129,5 +139,10 @@ void InterfacePage::writeConfig()
 	QuackerSettings::self()->scoreLabels = m_scoreLabelsCheck->isChecked();
 	QuackleIO::UtilSettings::self()->octothorpBritish = m_octothorpCheck->isChecked();
 	QuackleIO::UtilSettings::self()->scoreInvalidAsZero = m_scoreInvalidAsZero->isChecked();
+
+	CustomQSettings settings;
+	QString templ = m_wordLookupTemplateEdit->text().trimmed();
+	if (templ.isEmpty()) templ = "sjp.pl/$1";
+	settings.setValue("quackle/settings/word-lookup-template", templ);
 }
 

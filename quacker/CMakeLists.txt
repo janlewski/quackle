@@ -1,4 +1,6 @@
 cmake_minimum_required (VERSION 3.10)
+set(CMAKE_CXX_COMPILER "C:/msys64/mingw64/bin/g++.exe")
+set(CMAKE_C_COMPILER "C:/msys64/mingw64/bin/gcc.exe")
 
 project (Quackle VERSION 1.0.4)
 
@@ -35,6 +37,7 @@ set(QUACKLE_SOURCES
 	graphicalboard.cpp
 	graphicalreporter.cpp
 	history.cpp
+	words.cpp
 	letterbox.cpp
 	letterboxsettings.cpp
 	lexicondialog.cpp
@@ -68,6 +71,7 @@ set(QUACKLE_HEADERS
 	graphicalboard.h
 	graphicalreporter.h
 	history.h
+	words.h
 	letterbox.h
 	letterboxsettings.h
 	lexicondialog.h
