@@ -73,8 +73,8 @@ QString Words::buildUrlForWord(const QString &word) const
     CustomQSettings settings;
     const QString templ = settings.value("quackle/settings/word-lookup-template", QString("sjp.pl/$1")).toString();
 
-    // Percent-encode the word and substitute into the template.
-    const QByteArray enc = QUrl::toPercentEncoding(word);
+    // Percent-encode the word (lowercase) and substitute into the template.
+    const QByteArray enc = QUrl::toPercentEncoding(word.toLower());
     QString url = templ;
     url.replace("$1", QString::fromUtf8(enc));
 
